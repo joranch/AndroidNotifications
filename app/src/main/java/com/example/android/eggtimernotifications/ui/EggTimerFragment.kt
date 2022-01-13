@@ -61,6 +61,8 @@ class EggTimerFragment : Fragment() {
             getString(R.string.breakfast_notification_channel_name)
         )
 
+        subscribeTopic()
+
         return binding.root
     }
 
@@ -82,10 +84,19 @@ class EggTimerFragment : Fragment() {
             val notificationManager = requireContext().getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(notificationChannel)
         }
+    }
 
+    private fun subscribeTopic() {
+        FirebaseMessaging.getInstance().subscribeToTopic(TOPIC)
+            .addOnCompleteListener { task ->
+                var msg = getString(R.string.message_subscribed)
 
-        // TODO: Step 1.6 END create a channel
+                if (!task.isSuccessful) {
+                    msg = getString(R.string.message_subscribe_failed)
+                }
 
+                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
+            }
     }
 
     companion object {

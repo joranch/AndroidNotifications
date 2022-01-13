@@ -47,6 +47,11 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
 
     // TODO: Step 2.2 add snooze action
 
+    val eggImage = BitmapFactory.decodeResource(applicationContext.resources, R.drawable.cooked_egg)
+    val bigPictureStyle = NotificationCompat.BigPictureStyle()
+        .bigPicture(eggImage)
+        .bigLargeIcon(null)
+
     val builder = NotificationCompat.Builder(
         applicationContext,
         applicationContext.resources.getString(R.string.egg_notification_channel_id))
@@ -56,12 +61,14 @@ fun NotificationManager.sendNotification(messageBody: String, applicationContext
         .setContentText(messageBody)
         .setContentIntent(pendingIntent)
         .setAutoCancel(true)
-
-        // TODO: Step 2.1 add style to builder
-
-        // TODO: Step 2.3 add snooze action
+        .setStyle(bigPictureStyle)
+        .setLargeIcon(eggImage)
 
         // TODO: Step 2.5 set priority
 
     notify(NOTIFICATION_ID, builder.build())
+}
+
+fun NotificationManager.cancelNotifications() {
+    cancelAll()
 }
